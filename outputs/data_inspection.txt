@@ -1,0 +1,59 @@
+Shape: 1235 rows x 11 columns
+
+<class 'pandas.DataFrame'>
+RangeIndex: 1235 entries, 0 to 1234
+Data columns (total 11 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   order_id        1235 non-null   str    
+ 1   order_date      1235 non-null   str    
+ 2   customer_id     1235 non-null   str    
+ 3   city            1211 non-null   str    
+ 4   category        1235 non-null   str    
+ 5   product         1235 non-null   str    
+ 6   quantity        1235 non-null   int64  
+ 7   unit_price      1223 non-null   str    
+ 8   discount_pct    1198 non-null   float64
+ 9   payment_method  1217 non-null   str    
+ 10  rating          1138 non-null   float64
+dtypes: float64(2), int64(1), str(8)
+memory usage: 106.3 KB
+
+Missing values per column:
+order_id           0
+order_date         0
+customer_id        0
+city              24
+category           0
+product            0
+quantity           0
+unit_price        12
+discount_pct      37
+payment_method    18
+rating            97
+
+Exact duplicate rows: 35
+
+First 5 rows:
+        order_id  order_date customer_id        city        category       product  quantity unit_price  discount_pct     payment_method  rating
+0  ORD-2025-0754  2025-07-23       C0205     Karachi          Sports  Dumbbell Set         0       6280          20.0          Easypaisa     4.0
+1  ORD-2025-0583  2025-02-23       C0370  Faisalabad         Fashion        Hoodie         3       3520          10.0           JazzCash     5.0
+2  ORD-2025-0549  15/11/2025       C0049    Islamabd         Fashion       T-Shirt         1       1360          30.0   Cash on Delivery     4.0
+3  ORD-2025-0114  2025-08-22       C0399    Peshawar  Home & Kitchen     Air Fryer         1      15910          20.0           JazzCash     3.0
+4  ORD-2025-0175  2025-03-22       C0299   Islamabad         Fashion       T-Shirt         3       1370           0.0  Credit/Debit Card     4.0
+
+Unique spellings in text columns:
+  city (22): [' Islamabad', ' Lahore ', 'Faisalabad', 'Faislabad', 'Islamabad', 'Islamabd', 'KARACHI', 'Karachi', 'Karachi ', 'LAHORE', 'Lahor', 'Lahore', 'MULTAN', 'Multan', 'Peshawar', 'Peshawer', 'faisalabad', 'islamabad', 'karachi', 'lahore', 'multan', 'peshawar']
+  category (18): ['BEAUTY', 'Beauty', 'Books', 'Books ', 'ELECTRONICS', 'Electronics', 'Fashion', 'Fashion ', 'Home & Kitchen', 'Home and Kitchen', 'SPORTS', 'Sports', 'beauty', 'books', 'electronics', 'fashion', 'home & kitchen', 'sports']
+  payment_method (5): ['Bank Transfer', 'Cash on Delivery', 'Credit/Debit Card', 'Easypaisa', 'JazzCash']
+
+Numeric summary (before cleaning):
+       quantity  discount_pct   rating
+count   1235.00       1198.00  1138.00
+mean       1.48          8.54     4.00
+std        0.70          8.99     0.87
+min       -1.00          0.00     0.00
+25%        1.00          0.00     3.00
+50%        1.00          5.00     4.00
+75%        2.00         15.00     5.00
+max        4.00         30.00    10.00

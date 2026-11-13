@@ -1,0 +1,210 @@
+
+======================================================================
+1. LOAD AND INSPECT
+======================================================================
+Shape: 1235 rows x 11 columns
+
+<class 'pandas.DataFrame'>
+RangeIndex: 1235 entries, 0 to 1234
+Data columns (total 11 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   order_id        1235 non-null   str    
+ 1   order_date      1235 non-null   str    
+ 2   customer_id     1235 non-null   str    
+ 3   city            1211 non-null   str    
+ 4   category        1235 non-null   str    
+ 5   product         1235 non-null   str    
+ 6   quantity        1235 non-null   int64  
+ 7   unit_price      1223 non-null   str    
+ 8   discount_pct    1198 non-null   float64
+ 9   payment_method  1217 non-null   str    
+ 10  rating          1138 non-null   float64
+dtypes: float64(2), int64(1), str(8)
+memory usage: 106.3 KB
+
+Missing values per column:
+order_id           0
+order_date         0
+customer_id        0
+city              24
+category           0
+product            0
+quantity           0
+unit_price        12
+discount_pct      37
+payment_method    18
+rating            97
+
+Exact duplicate rows: 35
+
+First 5 rows:
+        order_id  order_date customer_id        city        category       product  quantity unit_price  discount_pct     payment_method  rating
+0  ORD-2025-0754  2025-07-23       C0205     Karachi          Sports  Dumbbell Set         0       6280          20.0          Easypaisa     4.0
+1  ORD-2025-0583  2025-02-23       C0370  Faisalabad         Fashion        Hoodie         3       3520          10.0           JazzCash     5.0
+2  ORD-2025-0549  15/11/2025       C0049    Islamabd         Fashion       T-Shirt         1       1360          30.0   Cash on Delivery     4.0
+3  ORD-2025-0114  2025-08-22       C0399    Peshawar  Home & Kitchen     Air Fryer         1      15910          20.0           JazzCash     3.0
+4  ORD-2025-0175  2025-03-22       C0299   Islamabad         Fashion       T-Shirt         3       1370           0.0  Credit/Debit Card     4.0
+
+Unique spellings in text columns:
+  city (22): [' Islamabad', ' Lahore ', 'Faisalabad', 'Faislabad', 'Islamabad', 'Islamabd', 'KARACHI', 'Karachi', 'Karachi ', 'LAHORE', 'Lahor', 'Lahore', 'MULTAN', 'Multan', 'Peshawar', 'Peshawer', 'faisalabad', 'islamabad', 'karachi', 'lahore', 'multan', 'peshawar']
+  category (18): ['BEAUTY', 'Beauty', 'Books', 'Books ', 'ELECTRONICS', 'Electronics', 'Fashion', 'Fashion ', 'Home & Kitchen', 'Home and Kitchen', 'SPORTS', 'Sports', 'beauty', 'books', 'electronics', 'fashion', 'home & kitchen', 'sports']
+  payment_method (5): ['Bank Transfer', 'Cash on Delivery', 'Credit/Debit Card', 'Easypaisa', 'JazzCash']
+
+Numeric summary (before cleaning):
+       quantity  discount_pct   rating
+count   1235.00       1198.00  1138.00
+mean       1.48          8.54     4.00
+std        0.70          8.99     0.87
+min       -1.00          0.00     0.00
+25%        1.00          0.00     3.00
+50%        1.00          5.00     4.00
+75%        2.00         15.00     5.00
+max        4.00         30.00    10.00
+
+======================================================================
+2. CLEANING LOG
+======================================================================
+                                                                 issue  rows_affected                                                               decision
+                            Duplicate rows (same order exported twice)             35 Removed. An order can only be counted once, so keeping copies would...
+City: different capital letters, extra spaces and typos (Lahor, Isl...            111 Trimmed, lower-cased, fixed known typos, then title-cased: 22 spell...
+Category: capital letters, spaces and 'Home and Kitchen' vs 'Home &...             93                  Same normalisation: 18 spellings became 6 categories.
+              Dates written in two formats (YYYY-MM-DD and DD/MM/YYYY)            360 Parsed each format separately into one real datetime column (slash ...
+                          Unit price stored as text such as 'Rs 4,500'             95           Removed 'Rs' and commas and converted the column to numbers.
+                                                    Unit price missing             12 Filled with the median price of the same product (a product's price...
+          Quantity of 0 or negative (impossible for a completed order)              6 Rows dropped. The true quantity is unknown and guessing would disto...
+                               Rating outside the 1-5 scale (0, 9, 10)              5                            Set to missing instead of guessing a value.
+                                                      Discount missing             36 Filled with the median discount of the same month (discounts follow...
+                              Rating missing (customer did not review)             96 Left empty. A rating is an opinion and cannot be invented; rating c...
+                                                          City missing             24 Labelled 'Unknown' so the sale still counts in revenue totals but i...
+                                                Payment method missing             18 Labelled 'Unknown' so the sale still counts in revenue totals but i...
+
+Rows: 1235 raw -> 1194 clean | missing values left: 101 (all in 'rating')
+
+======================================================================
+3. SUMMARY STATISTICS
+======================================================================
+
+--- overview ---
+Orders                         1194.00
+Units sold                     1773.00
+Total revenue (Rs)          6579000.00
+Average order value (Rs)       5510.05
+Median order value (Rs)        4728.25
+Average rating                    4.00
+Unique customers                574.00
+
+--- monthly ---
+       orders   revenue
+month                  
+1          76  511840.5
+2          83  416307.5
+3         118  593352.0
+4          89  548831.5
+5          82  446534.5
+6          87  388722.0
+7          85  466550.5
+8          90  495242.0
+9          90  470835.5
+10         90  510595.0
+11        180  965697.0
+12        124  764492.0
+
+--- category ---
+                orders  units    revenue  avg_rating  revenue_share_pct
+category                                                               
+Home & Kitchen     239    329  1922302.5        3.90               29.2
+Fashion            322    479  1665470.5        4.00               25.3
+Electronics        202    318  1208460.5        3.74               18.4
+Beauty             177    260   822341.0        4.12               12.5
+Sports             121    171   633758.0        4.06                9.6
+Books              133    216   326667.5        4.32                5.0
+
+--- city ---
+            orders    revenue  avg_order_value  avg_rating
+city                                                      
+Karachi        373  1973360.5          5290.51        4.06
+Lahore         306  1710202.5          5588.90        3.99
+Islamabad      192  1033900.5          5384.90        4.04
+Faisalabad     111   621452.0          5598.67        4.10
+Multan         103   606131.0          5884.77        3.91
+Peshawar        85   498741.0          5867.54        3.68
+
+--- payment ---
+                   orders  share_pct
+payment_method                      
+Cash on Delivery      514       43.7
+Credit/Debit Card     228       19.4
+JazzCash              188       16.0
+Easypaisa             165       14.0
+Bank Transfer          81        6.9
+
+--- discount ---
+              orders  avg_units  avg_order_value
+discount_pct                                    
+0.0              476       1.36          5562.11
+5.0              148       1.44          5600.44
+10.0             235       1.53          5674.88
+15.0              84       1.54          5112.55
+20.0             184       1.59          5406.65
+30.0              67       1.97          5144.69
+
+--- top_products ---
+                  orders   revenue
+product                           
+Air Fryer             54  822333.0
+Sneakers              73  488475.0
+Smart Watch           43  425907.5
+Lawn Suit             55  375597.0
+Blender               46  374492.0
+Handbag               69  374399.0
+Bedsheet Set          56  342281.0
+Dinner Set            41  315148.5
+Hoodie                62  294123.0
+Wireless Earbuds      42  276083.5
+
+--- customers ---
+Customers with 2+ orders (%)         63.2
+Revenue from repeat customers (%)    81.8
+Most orders by one customer           7.0
+
+======================================================================
+4. CHARTS
+======================================================================
+Saved: 01_monthly_revenue.png, 02_category_revenue.png, 03_discount_effect.png, 04_city_revenue_rating.png, 05_payment_methods.png, 06_data_quality_issues.png
+
+======================================================================
+5. FINDINGS
+======================================================================
+# Findings Summary - ShopEase 2025 Orders
+
+**Dataset:** self-created, 1,235 raw rows (generated by `generate_dataset.py`), 1,194 rows after cleaning.
+**Total revenue analysed:** Rs 6.58M from 1,194 orders.
+
+## Finding 1 - Sales are strongly seasonal
+November is the best month with **Rs 966K**, which is
+**1.9 times** the average of the other eleven months (Rs 510K).
+November and December together bring **26%** of the whole year's revenue.
+*Action:* stock up and plan advertising before the November sale period.
+
+## Finding 2 - Revenue depends on a few categories
+**Home & Kitchen** earns the most (**29.2%** of revenue) and the top two categories together earn
+**54%**. Note that Fashion receives the most orders, but each order is worth only Rs 5,172 on average, against Rs 8,043 for Home & Kitchen.
+*Action:* keep high-value categories well stocked and promote them first.
+
+## Finding 3 - Discounts raise basket size
+Orders with **30% discount** contain **1.97 units** on average, compared with
+**1.36 units** at 0% discount. The average order value is Rs 5,145
+at 30% and Rs 5,562 at 0%, so extra units do not always make up for the price cut.
+*Action:* use deep discounts selectively (for example, to clear stock) instead of on every product.
+
+## Finding 4 - Customer satisfaction differs between cities
+**Faisalabad** has the highest average rating (**4.10**) and **Peshawar** the lowest
+(**3.68**), a gap of 0.42 stars.
+*Action:* investigate delivery time and service quality in the lowest-rated city.
+
+## Limitations
+* The data is synthetic, so the findings describe this dataset only and are not real market facts.
+* Ratings exist for only part of the orders (92% of cleaned rows).
+* The data shows association, not proof of cause (for example, discounts and the November season overlap).
+

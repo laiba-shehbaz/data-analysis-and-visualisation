@@ -1,0 +1,13 @@
+issue,rows_affected,decision
+Duplicate rows (same order exported twice),35,"Removed. An order can only be counted once, so keeping copies would inflate revenue."
+"City: different capital letters, extra spaces and typos (Lahor, Islamabd...)",111,"Trimmed, lower-cased, fixed known typos, then title-cased: 22 spellings became 6 cities."
+"Category: capital letters, spaces and 'Home and Kitchen' vs 'Home & Kitchen'",93,Same normalisation: 18 spellings became 6 categories.
+Dates written in two formats (YYYY-MM-DD and DD/MM/YYYY),360,Parsed each format separately into one real datetime column (slash dates are day-first).
+"Unit price stored as text such as 'Rs 4,500'",95,Removed 'Rs' and commas and converted the column to numbers.
+Unit price missing,12,Filled with the median price of the same product (a product's price barely changes).
+Quantity of 0 or negative (impossible for a completed order),6,Rows dropped. The true quantity is unknown and guessing would distort revenue.
+"Rating outside the 1-5 scale (0, 9, 10)",5,Set to missing instead of guessing a value.
+Discount missing,36,Filled with the median discount of the same month (discounts follow the season).
+Rating missing (customer did not review),96,Left empty. A rating is an opinion and cannot be invented; rating charts use only real reviews.
+City missing,24,Labelled 'Unknown' so the sale still counts in revenue totals but is left out of comparisons.
+Payment method missing,18,Labelled 'Unknown' so the sale still counts in revenue totals but is left out of comparisons.
