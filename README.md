@@ -10,6 +10,8 @@
   <img src="https://img.shields.io/badge/Domain%203-Task%202-f59e0b" alt="Task 2">
 </p>
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20Preview-16a34a?style=for-the-badge&logo=githubpages&logoColor=white)](https://laiba-shehbaz.github.io/data-analysis-and-visualisation/data_analysis_run.html)
+
 <h1 align="center"><img src="assets/icon.svg" width="40" align="top"> ShopEase 2025 - Data Analysis and Visualisation</h1>
 
 <p align="center">
@@ -256,4 +258,10 @@ Task2_Data_Analysis/
 
 ---
 
-<p align="center">Made with Python 🐍 pandas 🐼 Matplotlib 📊 | Domain 3 - Task 2</p>
+## 👤 Author & Assessment
+
+| | |
+|---|---|
+| **Author** | Laiba Shehbaz |
+| **Assessment** | Python Programming - Advanced Level |
+| **Domain / Task** | Domain 3 - Task 2 (Data Analysis and Visualisation) |
