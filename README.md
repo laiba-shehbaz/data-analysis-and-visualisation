@@ -258,10 +258,4 @@ Task2_Data_Analysis/
 
 ---
 
-## 👤 Author & Assessment
-
-| | |
-|---|---|
-| **Author** | Laiba Shehbaz |
-| **Assessment** | Python Programming - Advanced Level |
-| **Domain / Task** | Domain 3 - Task 2 (Data Analysis and Visualisation) |
+**Author:** Laiba Shehbaz | Data Analysis and Visualisation
